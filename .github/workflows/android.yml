@@ -1,4 +1,4 @@
-name: Production Android APK
+name: Production Android Build
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -19,17 +19,20 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Make Gradle executable
-        run: chmod +x gradlew
-
       - name: Verify project structure
         run: ls -R
 
-      - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug --stacktrace
+      - name: Build APK (system Gradle fallback)
+        run: |
+          if [ -f gradlew ]; then
+            chmod +x gradlew
+            ./gradlew :app:assembleDebug
+          else
+            gradle :app:assembleDebug
+          fi
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: mtfapk-debug
+          name: debug-apk
           path: app/build/outputs/apk/debug/*.apk
