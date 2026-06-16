@@ -1,0 +1,6 @@
+{
+  "name": "Mehedi Tailors and Fabrics",
+  "description": "Production-ready Android application for a bespoke tailoring and fabric business.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
